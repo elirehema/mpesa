@@ -65,3 +65,16 @@ func QueryBeneficiaryName(request datas.RequestData) datas.ResponseData {
 	}
 	return result
 }
+func QueryTransactionStatus(request datas.RequestData) datas.ResponseData {
+	result := datas.ResponseData{}
+	_, err := sandbox.MpesaClient.R().SetResult(&result).SetBody(&request).SetQueryParams(map[string]string{
+		"input_QueryReference":           request.QueryReference,
+		"input_Country":                  request.Country,
+		"input_ServiceProviderCode":      request.ServiceProviderCode,
+		"input_ThirdPartyConversationID": request.ConversationId,
+	}).Post("/queryTransactionStatus/")
+	if err != nil {
+		print(err.Error())
+	}
+	return result
+}
