@@ -1,4 +1,4 @@
-module mpesa
+module github.com/elirehema/mpesa
 
 go 1.20
 

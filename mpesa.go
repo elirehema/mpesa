@@ -1,9 +1,8 @@
 package mpesa
 
 import (
-	"mpesa/datas"
-	"mpesa/sandbox"
-
+	"github.com/elirehema/mpesa/datas"
+	"github.com/elirehema/mpesa/sandbox"
 	"github.com/joho/godotenv"
 )
 
