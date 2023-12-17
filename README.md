@@ -209,8 +209,8 @@ func makeRequestQueryBeneficiaryNameRequest() {
 
 | Field Name |  Description  | Mandatory | Regex Validation | Possible Values |
 |:-----------|:-------------:|----------:|-----------------:|----------------:|
-| Amount     | **bold**      | $1600     |                  |                 |
-| Country    |  The country of the mobile money platform beign queried.     | [x]  N/A     |  GHA,TZN,LES,DRC |                 |
+| Amount     | Transaction Amount      | $1600     |                  |                 |
+| Country    |  The origin country     | [x]  | N/A     |  GHA,TZN,LES,DRC | 
 | Currency   | _italic_ |    $1 |       |       |
 | MSISDN   | _italic_ |    $1 |       |       |
 | ServiceProviderCode   | _italic_ |    $1 |       |       |
