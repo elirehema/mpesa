@@ -208,16 +208,24 @@ func makeRequestQueryBeneficiaryNameRequest() {
 ### DEFINITIONS
 
 | Field Name |  Description  | Mandatory | Regex Validation | Possible Values |
-|:-----------|:-------------:|----------:|-----------------:|----------------:|
-| Amount     | Transaction Amount      | $1600     |                  |                 |
-| Country    |  The origin country     | [x]  | N/A     |  GHA,TZN,LES,DRC | 
-| Currency   | _italic_ |    $1 |       |       |
-| MSISDN   | _italic_ |    $1 |       |       |
-| ServiceProviderCode   | _italic_ |    $1 |       |       |
-| ConversationID   | _italic_ |    $1 |       |       |
-| Description   | _italic_ |    $1 |       |       |
-| TransactionRef   | _italic_ |    $1 |       |       |
-| SenderCode   | _italic_ |    $1 |       |       |
-| ReceiverCode   | _italic_ |    $1 |       |       |
-| QueryReference   | _italic_ |    $1 |       |       |
-| KYCQueryType   | _italic_ |    $1 |       |       |
+|:-----------|:-------------|:---------:|:-----------------|:----------------|
+| Amount     | Transaction Amount      | True     | ^\d*\.?\d+$ | 100.0  |
+| Country    |  The origin country     | True  | N/A     |  GHA,TZN,LES,DRC | 
+| Currency   | Transaction Currency |    True |   ^[a-zA-Z]{1,3}$    | TZS,GHS,LSL,USD   |
+| MSISDN   |  Customer Number |   True |  ^[0-9]{12,14}$     | 255707161122      |
+| ServiceProviderCode   | Organization Short Code |  True | ^([0-9A-Za-z]{4,12})$  | ORG001 |
+| ConversationID   | The third party's transaction reference on their system. | True | ^[0-9a-zA-Z \w+]{1,40}$  | 1e9b774d1da34af78412a498cbc28f5e |
+| Description   | Other descriptions |   True |  ^[0-9a-zA-Z \w+]{1,256}$  |  Handbag, Black shoes  |
+| TransactionRef   | transaction reference |    True | ^[0-9a-zA-Z \w+]{1,20}$  | T12344C  |
+| SenderCode   | Organiation Short Code |   True |   ^([0-9A-Za-z]{4,12})$   |   ORG001    |
+| ReceiverCode   |  Organiation Short Code_ |   True |  ^([0-9A-Za-z]{4,12})$    |  ORG002     |
+| QueryReference   | The transaction's ID being queried. |    True | ^(?:[A-Za-z0-9]{10,20} |   ............    |
+| KYCQueryType   | The type of KYC information to be queried, currently only "Name" is supported. |  True | ^(Name)$ | Name      |
+
+
+#### QueryReference
+
+The transaction's ID being queried. This can be one of 3 values: 
+1. Mobile Money's TransactionID
+2. Developer's ThirdPartyConversationID
+3. OpenAPI's ConversationID
