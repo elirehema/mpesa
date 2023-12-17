@@ -31,8 +31,12 @@ func GetSessionBearerAccessToken(apiKey string) string {
 func initHttpClient() *resty.Client {
 	client := resty.New()
 	godotenv.Load()
+	enviroment := os.Getenv("ENVIROMENT")
 
-	BASE_URL := os.Getenv("BASE_URL")
+	var BASE_URL = "https://openapi.m-pesa.com/sandbox/ipg/v2"
+	if enviroment == "PROD" {
+		BASE_URL = "https://openapi.m-pesa.com/openapi/ipg/v2"
+	}
 	COUNTRY := os.Getenv("COUNTRY")
 	baseUrl := fmt.Sprintf("%s/%s", BASE_URL, COUNTRY)
 

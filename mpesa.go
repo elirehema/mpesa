@@ -7,10 +7,20 @@ import (
 	"github.com/joho/godotenv"
 )
 
+const (
+	SESSION                  = "/getSession/"
+	C2BPAYMENT               = "/c2bPayment/singleStage/"
+	B2CPAYMENT               = "/b2cPayment/singleStage/"
+	B2BPAYMENT               = "/b2bPayment/singleStage/"
+	REVERSAL                 = "/reversal"
+	QUERY_BENEFICIARY_NAME   = "/queryBeneficiaryName/"
+	QUERY_TRANSACTION_STATUS = "/queryTransactionStatus/"
+)
+
 func RefreshSessionKey() {
 	godotenv.Load("session.env")
 	result := datas.SessionResponseData{}
-	_, err := sandbox.MpesaClient.R().SetResult(&result).Get("/getSession/")
+	_, err := sandbox.MpesaClient.R().SetResult(&result).Get(SESSION)
 	if err != nil {
 		print(err.Error())
 	} else {
@@ -20,59 +30,59 @@ func RefreshSessionKey() {
 		print(&result)
 	}
 }
-func CustomerToBusiness(request datas.RequestData) datas.ResponseData {
+func CustomerToBusiness(request datas.RequestCustomerToBusiness) datas.ResponseData {
 	result := datas.ResponseData{}
-	_, err := sandbox.MpesaClient.R().SetResult(&result).SetBody(&request).Post("/c2bPayment/singleStage/")
+	_, err := sandbox.MpesaClient.R().SetResult(&result).SetBody(&request).Post(C2BPAYMENT)
 	if err != nil {
 		print(err.Error())
 	}
 	return result
 }
-func BusinessToCustomer(request datas.RequestData) datas.ResponseData {
+func BusinessToCustomer(request datas.RequestBusinessToCustomer) datas.ResponseData {
 	result := datas.ResponseData{}
-	_, err := sandbox.MpesaClient.R().SetResult(&result).SetBody(&request).Post("/b2cPayment/singleStage/")
+	_, err := sandbox.MpesaClient.R().SetResult(&result).SetBody(&request).Post(B2CPAYMENT)
 	if err != nil {
 		print(err.Error())
 	}
 	return result
 }
-func BusinessToBusiness(request datas.RequestData) datas.ResponseData {
+func BusinessToBusiness(request datas.RequestBusinessToBusiness) datas.ResponseData {
 	result := datas.ResponseData{}
-	_, err := sandbox.MpesaClient.R().SetResult(&result).SetBody(&request).Post("/b2bPayment/singleStage/")
+	_, err := sandbox.MpesaClient.R().SetResult(&result).SetBody(&request).Post(B2BPAYMENT)
 	if err != nil {
 		print(err.Error())
 	}
 	return result
 }
-func ReverseTransaction(request datas.RequestData) datas.ResponseData {
+func ReverseTransaction(request datas.RequestReversalTransaction) datas.ResponseData {
 	result := datas.ResponseData{}
-	_, err := sandbox.MpesaClient.R().SetResult(&result).SetBody(&request).Post("/reversal")
+	_, err := sandbox.MpesaClient.R().SetResult(&result).SetBody(&request).Post(REVERSAL)
 	if err != nil {
 		print(err.Error())
 	}
 	return result
 }
-func QueryBeneficiaryName(request datas.RequestData) datas.ResponseData {
+func QueryBeneficiaryName(request datas.RequestQueryBeneficiaryName) datas.ResponseData {
 	result := datas.ResponseData{}
 	_, err := sandbox.MpesaClient.R().SetResult(&result).SetBody(&request).SetQueryParams(map[string]string{
 		"input_CustomerMSISDN":      request.Msisdn,
 		"input_Country":             request.Country,
 		"input_ServiceProviderCode": request.ServiceProviderCode,
 		"input_KYCQueryType":        request.KYCQueryType,
-	}).Post("/queryBeneficiaryName/")
+	}).Post(QUERY_BENEFICIARY_NAME)
 	if err != nil {
 		print(err.Error())
 	}
 	return result
 }
-func QueryTransactionStatus(request datas.RequestData) datas.ResponseData {
+func QueryTransactionStatus(request datas.RequestQueryTransactionStatus) datas.ResponseData {
 	result := datas.ResponseData{}
 	_, err := sandbox.MpesaClient.R().SetResult(&result).SetBody(&request).SetQueryParams(map[string]string{
 		"input_QueryReference":           request.QueryReference,
 		"input_Country":                  request.Country,
 		"input_ServiceProviderCode":      request.ServiceProviderCode,
 		"input_ThirdPartyConversationID": request.ConversationId,
-	}).Post("/queryTransactionStatus/")
+	}).Post(QUERY_TRANSACTION_STATUS)
 	if err != nil {
 		print(err.Error())
 	}
