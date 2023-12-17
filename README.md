@@ -29,13 +29,15 @@ The C2B API call is used as a standard customer-to-business transaction. Funds f
 #### Example
 ```go
 
+
 import (
 	"github.com/elirehema/mpesa"
 	"github.com/elirehema/mpesa/datas"
 )
 
 func main() {
-	customerToBusinessTransaction()
+	mpesa.RefreshSessionKey()
+	makeCustomerToBusinessTransaction()
 }
 
 func makeCustomerToBusinessTransaction() {
@@ -46,6 +48,14 @@ func makeCustomerToBusinessTransaction() {
 		Msisdn:              "000000000001",
 		ServiceProviderCode: "000000",
 		ConversationId:      "asv02e5958774f7ba228d83d0d689761",
+		TransactionRef:      "TRX0000123N",
+		Description:         "Make tax payment",
+	}
+
+	response := mpesa.CustomerToBusiness(transaction)
+	print(response.ThirdPartyConversationID)
+}
+
 	
 ```
 
