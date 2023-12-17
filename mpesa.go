@@ -81,7 +81,7 @@ func QueryTransactionStatus(request datas.RequestQueryTransactionStatus) datas.R
 		"input_Country":                  request.Country,
 		"input_ServiceProviderCode":      request.ServiceProviderCode,
 		"input_ThirdPartyConversationID": request.ConversationId,
-	}).Post(QUERY_TRANSACTION_STATUS)
+	}).Get(QUERY_TRANSACTION_STATUS)
 	if err != nil {
 		print(err.Error())
 	}
